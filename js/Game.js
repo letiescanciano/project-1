@@ -22,6 +22,7 @@ const Game = {
       this.framesCounter++;
       this.clear()
       this.drawAll()
+      this.moveAll()
       if (this.framesCounter > 1000) {
         this.framesCounter = 0;
       }
@@ -33,14 +34,13 @@ const Game = {
   },
   reset: function () {
     this.level = new Level(this.ctx, this.canvas)
-
     this.framesCounter = 0
   },
   drawAll: function () {
     this.level.draw(this.framesCounter)
   },
   moveAll: function () {
-
+    this.level.move()
   },
   clear: function () {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)

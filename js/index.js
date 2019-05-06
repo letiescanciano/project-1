@@ -15,4 +15,8 @@ window.onload = function () {
     Game.stop('game-board')
   }
 
+  function resetGame() {
+    Game.reset('game-board')
+  }
+
 };
