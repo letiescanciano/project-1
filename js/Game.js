@@ -4,7 +4,7 @@ const Game = {
   name: 'Music Pang',
   fps: 60,
   framesCounter: 0,
-  level: 1
+  level: 1,
 
   init: function (canvasId) {
     console.log("game init")

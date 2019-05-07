@@ -7,7 +7,7 @@ class MusicNote {
       y: position.y - 10
     }
     this.speed = {
-      y: 4
+      y: 10
     }
     this.img = new Image()
     this.img.src = 'img/instruments/musical-note.svg'

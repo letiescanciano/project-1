@@ -2,7 +2,7 @@ class Ball {
   constructor(props) {
     this.ctx = props.ctx
     this.canvas = props.canvas
-    this.speed = {
+    this.speed = props.speed || {
       x: 3,
       y: 1
     }
@@ -10,6 +10,12 @@ class Ball {
 
     this.img = new Image()
     this.img.src = props.url
+    /* 
+        this.speedVal = 5;
+
+
+        this.angle = 295;
+        this.radians = this.angle * Math.PI / 180; */
 
     this.setDimensions()
     this.setPosition(props)
@@ -26,30 +32,26 @@ class Ball {
       case 1:
         this.width = 128
         this.height = 128
-        /*   this.speed.x = 1
-          this.speed.y = 1 */
         this.gravity = 0.08
         break;
       case 0:
         this.width = 64
         this.height = 64
-        this.speed.x = 1.5
-        this.speed.y = 1.5
         this.gravity = 0.01
         break;
     }
 
   }
   setPosition(props) {
-    this.position = {
+    /* this.position = {
       x: this.randomNumber(0, this.canvas.width - this.width),
       y: 0,
-    }
+    } */
 
-    /*     this.position = {
-          x: props.position.x,
-          y: props.position.y
-        } */
+    this.position = {
+      x: props.position.x,
+      y: props.position.y
+    }
   }
   draw() {
     this.ctx.drawImage(this.img, this.position.x, this.position.y, this.width, this.height)
@@ -63,13 +65,13 @@ class Ball {
     return Math.round(Math.random() * (max - min) + min)
   }
   moveX() {
-    this.position.x -= this.speed.x
     if (this.position.x <= 0 || this.position.x + this.width >= this.canvas.width) this.changeDirectionX()
+    this.position.x -= this.speed.x
   }
   moveY() {
+    if (this.position.y <= 0 || this.position.y + this.height >= this.canvas.height - 60) this.changeDirectionY()
     this.speed.y += this.gravity
     this.position.y += this.speed.y
-    if (this.position.y <= 0 || this.position.y + this.height >= this.canvas.height) this.changeDirectionY()
   }
   changeDirectionX() {
     //console.log("cambio de direccion en x")

@@ -42,8 +42,12 @@ class Level {
       type: 2,
       url: 'img/rock/rock' + this.randomNumber(1, 6) + '.jpg',
       position: {
-        x: this.randomNumber(0, this.canvas.width),
-        y: this.randomNumber(0, this.canvas.height / 2)
+        x: this.randomNumber(0, this.canvas.width - 300),
+        y: 0 //this.randomNumber(0, 300)
+      },
+      speed: {
+        x: 2,
+        y: 1
       }
     }
 
@@ -51,7 +55,7 @@ class Level {
       this.balls.push(new Ball(props))
       props.position = {
         x: this.randomNumber(0, this.canvas.width),
-        y: this.randomNumber(0, this.canvas.height / 2)
+        y: this.randomNumber(0, 100)
       }
     }
 
@@ -95,44 +99,21 @@ class Level {
       for (let i = 0; i < balls.length; i++) {
 
         if (this.checkImpact(bullets, balls[i])) {
-          //console.log(this.checkImpact(bullets, balls[i]))
-          //console.log('entro en impacto')
-
-          const slicedBall = {
-            ctx: balls[i].ctx,
-            canvas: balls[i].canvas,
-            type: balls[i].type - 1,
-            url: balls[i].img.src,
-            position: {
-              x: balls[i].position.x / 2,
-              y: balls[i].position.y - 20
-            },
-            speed: {
-              x: balls[i].speed.x
-            },
-            type: balls[i].type - 1
-          }
-          //console.log(slicedBall)
+          this.sliceBall(balls[i]).forEach(ball => {
+            if (ball.type >= 0)
+              this.balls.push(new Ball(ball))
+          })
           console.log(balls.splice(i, 1))
 
           i = i - 1
-          if (slicedBall.type >= 0) {
-            //sdebugger
-            for (let k = 0; k < 2; k++) {
-              this.balls.push(new Ball(slicedBall))
-              // debugger
-              slicedBall.speed.x = -slicedBall.speed.x
-              slicedBall.position.x = slicedBall.position.x - 40
-              slicedBall.position.y = slicedBall.position.y - 40
-
-              console.log(this.balls)
-            }
-          }
-          if (!this.balls.length) {
-            this.level++
-            console.log('next level!!')
-          }
+          console.log(this.balls)
         }
+
+        if (!this.balls.length) {
+          this.level++
+          console.log('next level!!')
+        }
+
       }
     }
   }
@@ -162,5 +143,39 @@ class Level {
 
   clearBullets() {
     this.player.bullets = this.player.bullets.filter(bullet => bullet.position.y > 0)
+  }
+  sliceBall(ball) {
+    //debugger
+    return [{
+        ctx: ball.ctx,
+        canvas: ball.canvas,
+        type: ball.type - 1,
+        url: ball.img.src,
+        position: {
+          x: ball.position.x / 2 + 100,
+          y: ball.position.y - 20
+        },
+        speed: {
+          x: ball.speed.x * 2,
+          y: -Math.abs(ball.speed.y) * 1.5
+        },
+        type: ball.type - 1
+      },
+      {
+        ctx: ball.ctx,
+        canvas: ball.canvas,
+        type: ball.type - 1,
+        url: ball.img.src,
+        position: {
+          x: ball.position.x / 2 + 100,
+          y: ball.position.y - 20
+        },
+        speed: {
+          x: ball.speed.x * -2,
+          y: -Math.abs(ball.speed.y) * 1.5
+        },
+        type: ball.type - 1
+      }
+    ]
   }
 }
