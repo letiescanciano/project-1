@@ -28,7 +28,7 @@ class Player {
       initialY: 0
     }
     this.bullets = [];
-    this.shoot()
+    this.lives = 4
     this.setListeners()
   }
 
@@ -46,13 +46,20 @@ class Player {
     )
 
     this.animateImg(framesCounter)
+    this.drawAndMoveBullets()
+    this.drawLives()
+
+  }
+  drawAndMoveBullets() {
     this.bullets.forEach(function (bullet) {
-      bullet.draw();
-      bullet.move();
-    });
-
-
-
+      bullet.draw()
+      bullet.move()
+    })
+  }
+  drawLives() {
+    this.ctx.font = '48px sans-serif';
+    this.ctx.fillStyle = 'white';
+    this.ctx.fillText('Lives x' + this.lives, 30, this.canvas.height - 22);
   }
   animateImg(framesCounter) {
     if (framesCounter % 10 === 0) {
@@ -61,12 +68,9 @@ class Player {
     }
   }
   shoot() {
-    console.log('shoot')
+
     const bullet = new MusicNote(this.ctx, this.position, this.width)
     this.bullets.push(bullet)
-
-    console.log(bullet)
-    console.log(this.bullets)
 
   }
   moveRight() {

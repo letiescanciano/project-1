@@ -4,6 +4,7 @@ const Game = {
   name: 'Music Pang',
   fps: 60,
   framesCounter: 0,
+  level: 1
 
   init: function (canvasId) {
     console.log("game init")
@@ -29,12 +30,15 @@ const Game = {
 
     }, 1000 / this.fps)
   },
-  stop: function () {
+  pause: function () {
     clearInterval(this.interval)
   },
   reset: function () {
-    this.level = new Level(this.ctx, this.canvas)
+    this.level = new Level(this.ctx, this.canvas, this.level)
     this.framesCounter = 0
+  },
+  nextLevel: function () {
+
   },
   drawAll: function () {
     this.level.draw(this.framesCounter)
@@ -44,7 +48,5 @@ const Game = {
   },
   clear: function () {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
-  },
-
-  setEventListeners: function () {},
+  }
 }

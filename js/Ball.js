@@ -1,44 +1,55 @@
 class Ball {
-  constructor(ctx, canvas, type, url) {
-    this.ctx = ctx
-    this.canvas = canvas
+  constructor(props) {
+    this.ctx = props.ctx
+    this.canvas = props.canvas
     this.speed = {
-      x: 5,
-      y: 4
+      x: 3,
+      y: 1
     }
-    this.type = type /* 0: pequeña(no se divide), 1: mediana 0*2, 2: grande 0*4 */
+    this.type = props.type /* 0: pequeña(no se divide), 1: mediana 0*2, 2: grande 0*4 */
 
     this.img = new Image()
-    this.img.src = url
+    this.img.src = props.url
 
     this.setDimensions()
-    this.setPosition()
+    this.setPosition(props)
   }
   setDimensions() {
     switch (this.type) {
       case 2:
         this.width = 256
         this.height = 256
+        this.speed.x = 0.5
+        this.speed.y = 0.5
         this.gravity = 0.003
         break;
       case 1:
         this.width = 128
         this.height = 128
-        this.gravity = 0.008
+        /*   this.speed.x = 1
+          this.speed.y = 1 */
+        this.gravity = 0.08
         break;
       case 0:
         this.width = 64
         this.height = 64
+        this.speed.x = 1.5
+        this.speed.y = 1.5
         this.gravity = 0.01
         break;
     }
 
   }
-  setPosition() {
+  setPosition(props) {
     this.position = {
       x: this.randomNumber(0, this.canvas.width - this.width),
       y: 0,
     }
+
+    /*     this.position = {
+          x: props.position.x,
+          y: props.position.y
+        } */
   }
   draw() {
     this.ctx.drawImage(this.img, this.position.x, this.position.y, this.width, this.height)
