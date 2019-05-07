@@ -23,7 +23,8 @@ class Level {
     }
 
     for (let i = 0; i < this.ballsNumber; i++) {
-      this.balls.push(new Ball(props))
+      let url = 'img/rock/rock' + this.randomNumber(1, 6) + '.jpg'
+      this.balls.push(new Ball(props, url))
       props.position = {
         x: this.randomNumber(0, this.canvas.width),
         y: this.randomNumber(0, this.canvas.height / 2)
@@ -51,7 +52,7 @@ class Level {
     }
 
     for (let i = 0; i < this.ballsNumber; i++) {
-      this.balls.push(new Ball(props))
+      this.balls.push(new Ball(props, props.url))
       props.position = {
         x: this.randomNumber(0, this.canvas.width),
         y: this.randomNumber(0, 100)
@@ -100,7 +101,7 @@ class Level {
         if (this.checkImpact(bullets, balls[i])) {
           this.sliceBall(balls[i]).forEach(ball => {
             if (ball.type >= 0)
-              this.balls.push(new Ball(ball))
+              this.balls.push(new Ball(ball, ball.url))
           })
           console.log(balls.splice(i, 1))
 
