@@ -5,9 +5,10 @@ const Game = {
   fps: 60,
   framesCounter: 0,
   level: 1,
+  paused: false,
 
   init: function (canvasId) {
-    console.log("game init")
+    //console.log("game init")
     this.canvas = document.getElementById(canvasId);
     this.ctx = this.canvas.getContext("2d");
 
@@ -17,28 +18,31 @@ const Game = {
     this.start()
   },
   start: function () {
-    console.log("game start")
+    //console.log("game start")
     this.reset();
     this.interval = setInterval(() => {
       this.framesCounter++;
-      this.clear()
-      this.drawAll()
-      this.moveAll()
+      if (!this.paused) {
+        this.clear()
+        this.drawAll()
+        this.moveAll()
+      }
       if (this.framesCounter > 1000) {
         this.framesCounter = 0;
       }
 
     }, 1000 / this.fps)
+
   },
   pause: function () {
-    clearInterval(this.interval)
+    this.paused ? this.paused = false : this.paused = true
   },
   reset: function () {
     this.level = new Level(this.ctx, this.canvas, this.level)
     this.framesCounter = 0
   },
   nextLevel: function () {
-
+    this.level = new Level(this.ctx, this.canvas, this.level)
   },
   drawAll: function () {
     this.level.draw(this.framesCounter)

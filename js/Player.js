@@ -76,12 +76,12 @@ class Player {
   moveRight() {
     console.log("me muevo a la derecha")
     this.position.x += this.speed.x
-    if (this.position.x >= this.canvas.width) this.position.x = 0
+    if (this.position.x >= this.canvas.width) this.position.x = this.canvas.width
   }
   moveLeft() {
     console.log("me muevo a la izquierda")
     this.position.x -= this.speed.x
-    if (this.position.x <= 0) this.position.x = this.canvas.width
+    if (this.position.x <= 0) this.position.x = 0
   }
   setListeners() {
     document.onkeydown = e => {
@@ -93,8 +93,5 @@ class Player {
         this.shoot()
       }
     }
-  }
-  clearBullets() { //revisar
-    //this.bullets = this.bullets.filter(bullet => bullet.position.y === 0)
   }
 }

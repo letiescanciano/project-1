@@ -5,7 +5,7 @@ class Level {
     this.background = undefined
     this.player = undefined
     this.ballsNumber = 2;
-    this.level = level
+    /* this.level = level. */
     this.reset()
   }
   reset() {
