@@ -1,16 +1,21 @@
 class Level {
-  constructor(ctx, canvas, level) {
-    this.ctx = ctx
-    this.canvas = canvas
-    this.background = undefined
-    this.player = undefined
-    this.ballsNumber = 2;
-    /* this.level = level. */
+  constructor(game, getLevel) {
+    this.game = game
+    this.ctx = this.game.ctx
+    this.canvas = this.game.canvas
+    this.getLevel = getLevel
+    this.ballsNumber = this.getLevel.ballsNumber;
+    this.level = this.getLevel.num
+    this.bgUrl = this.getLevel.musicGenre.background
+
+    this.playerAvatar = this.getLevel.musicGenre.instrument
+    this.playerFrames = this.getLevel.musicGenre.frames
+
     this.reset()
   }
   reset() {
-    this.background = new Background(this.ctx, this.canvas.width, this.canvas.height)
-    this.player = new Player(this.ctx, this.canvas)
+    this.background = new Background(this.ctx, this.canvas.width, this.canvas.height, this.bgUrl)
+    this.player = new Player(this.ctx, this.canvas, this.playerAvatar, this.playerFrames)
     this.balls = []
     const props = {
       ctx: this.ctx,
@@ -22,8 +27,13 @@ class Level {
       }
     }
 
+    let url
     for (let i = 0; i < this.ballsNumber; i++) {
-      let url = 'img/rock/rock' + this.randomNumber(1, 6) + '.jpg'
+
+      //let url = `img/${getLevel.musicGenre}/${getLevel.musicGenre} ${this.randomNumber(1, 6)}.jpg`
+      url = 'img' + this.getLevel.musicGenre.filePath + this.randomNumber(1, 3) + '.jpg'
+      console.log(url)
+      //let url = 'img/rock/rock' + this.randomNumber(1, 6) + '.jpg'
       this.balls.push(new Ball(props, url))
       props.position = {
         x: this.randomNumber(0, this.canvas.width),
@@ -40,7 +50,7 @@ class Level {
       ctx: this.ctx,
       canvas: this.canvas,
       type: 2,
-      url: 'img/rock/rock' + this.randomNumber(1, 6) + '.jpg',
+      url: 'img' + this.getLevel.musicGenre.filePath + this.randomNumber(1, 3) + '.jpg',
       position: {
         x: this.randomNumber(0, this.canvas.width - 300),
         y: 0 //this.randomNumber(0, 300)
@@ -110,9 +120,16 @@ class Level {
         }
 
         if (!this.balls.length) {
-          this.level++
-          console.log('next level!!')
+          //this.level++
+          console.log('Levelnum', this.game.levelNum)
+          if (this.game.levelNum < 4) {
+            this.game.nextLevel()
+            console.log('next level!!')
+          } else {
+            alert('Juego terminado. Enhorabuena')
+          }
         }
+
 
       }
     }

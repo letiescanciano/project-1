@@ -1,5 +1,5 @@
 class Player {
-  constructor(ctx, canvas, url) {
+  constructor(ctx, canvas, url, frames) {
     this.ctx = ctx
     this.canvas = canvas
 
@@ -14,11 +14,11 @@ class Player {
     }
 
     this.img = new Image()
-    this.img.src = 'img/instruments/rock.png'
-
+    this.img.src = 'img/instruments/' + url
+    console.log('instruments!', this.img.src)
     this.width = 128
     this.height = 128
-    this.img.frames = 6;
+    this.img.frames = frames;
     this.img.frameIndex = 0;
 
     this.position = {
@@ -76,7 +76,8 @@ class Player {
   moveRight() {
     console.log("me muevo a la derecha")
     this.position.x += this.speed.x
-    if (this.position.x >= this.canvas.width) this.position.x = this.canvas.width
+    console.log(this.position.x)
+    if (this.position.x >= this.canvas.width - this.width) this.position.x = this.canvas.width - this.width
   }
   moveLeft() {
     console.log("me muevo a la izquierda")

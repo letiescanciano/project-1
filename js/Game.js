@@ -4,7 +4,8 @@ const Game = {
   name: 'Music Pang',
   fps: 60,
   framesCounter: 0,
-  level: 1,
+  levelNum: 1,
+  getLevel: undefined,
   paused: false,
 
   init: function (canvasId) {
@@ -14,6 +15,8 @@ const Game = {
 
     this.canvas.width = window.innerWidth
     this.canvas.height = window.innerHeight
+    this.getLevel = getLevel(this.levelNum)
+    console.log(this.getLevel)
 
     this.start()
   },
@@ -38,11 +41,13 @@ const Game = {
     this.paused ? this.paused = false : this.paused = true
   },
   reset: function () {
-    this.level = new Level(this.ctx, this.canvas, this.level)
+    this.level = new Level(this, this.getLevel)
+    console.log(this.level)
     this.framesCounter = 0
   },
   nextLevel: function () {
-    this.level = new Level(this.ctx, this.canvas, this.level)
+    this.levelNum++
+    this.level = new Level(this, getLevel(this.levelNum))
   },
   drawAll: function () {
     this.level.draw(this.framesCounter)
