@@ -9,15 +9,15 @@ class Ball {
     this.type = props.type /* 0: pequeña(no se divide), 1: mediana 0*2, 2: grande 0*4 */
 
     this.img = new Image()
-    this.img.src = props.url
-    /* 
-        this.speedVal = 5;
+    this.img.src = 'img/rock/rock' + this.randomNumber(1, 6) + '.jpg',
+      /* 
+          this.speedVal = 5;
 
 
-        this.angle = 295;
-        this.radians = this.angle * Math.PI / 180; */
+          this.angle = 295;
+          this.radians = this.angle * Math.PI / 180; */
 
-    this.setDimensions()
+      this.setDimensions()
     this.setPosition(props)
   }
   setDimensions() {

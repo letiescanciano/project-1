@@ -16,7 +16,6 @@ class Level {
       ctx: this.ctx,
       canvas: this.canvas,
       type: 2,
-      url: 'img/rock/rock' + this.randomNumber(1, 6) + '.jpg',
       position: {
         x: this.randomNumber(0, this.canvas.width),
         y: this.randomNumber(0, this.canvas.height / 2)
