@@ -71,5 +71,41 @@ const levels = [{
     },
     musicGenre: randomSelector(musicGenres)
   },
+  {
+    num: 4,
+    ballsNumber: 5,
+    speed: {
+      x: speed.x * 2,
+      y: speed.x * 2
+    },
+    musicGenre: randomSelector(musicGenres)
+  },
+  {
+    num: 5,
+    ballsNumber: ballsNumber++,
+    speed: {
+      x: speed.x * 2,
+      y: speed.x * 2
+    },
+    musicGenre: randomSelector(musicGenres)
+  },
+  {
+    num: 6,
+    ballsNumber: ballsNumber++,
+    speed: {
+      x: speed.x * 2,
+      y: speed.x * 2
+    },
+    musicGenre: randomSelector(musicGenres)
+  },
+  {
+    num: 7,
+    ballsNumber: ballsNumber++,
+    speed: {
+      x: speed.x * 2,
+      y: speed.x * 2
+    },
+    musicGenre: randomSelector(musicGenres)
+  },
 
 ]

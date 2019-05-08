@@ -1,6 +1,13 @@
+@font-face {
+  font-family: 'Arcade';
+  src: url('arcadeclassic.ttf');
+}
+
 * {
   margin: 0;
-  padding: 0
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 .hero {
@@ -8,5 +15,14 @@
   background-size: cover;
   margin: 0;
   height: 100vh;
+  margin: 0 auto;
+}
+
+#controls {
+  height: 100vh;
+}
+
+
+.canvas {
   margin: 0 auto;
 }

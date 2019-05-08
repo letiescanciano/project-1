@@ -22,26 +22,21 @@ class Level {
       canvas: this.canvas,
       type: 2,
       position: {
-        x: this.randomNumber(0, this.canvas.width),
-        y: this.randomNumber(0, this.canvas.height / 2)
+        x: this.randomNumber(100, this.canvas.width - 300),
+        y: this.randomNumber(10, this.canvas.height / 3)
       }
     }
 
     let url
     for (let i = 0; i < this.ballsNumber; i++) {
-
-      //let url = `img/${getLevel.musicGenre}/${getLevel.musicGenre} ${this.randomNumber(1, 6)}.jpg`
-      url = 'img' + this.getLevel.musicGenre.filePath + this.randomNumber(1, 3) + '.jpg'
-      console.log(url)
-      //let url = 'img/rock/rock' + this.randomNumber(1, 6) + '.jpg'
+      url = 'img' + this.getLevel.musicGenre.filePath + this.randomNumber(1, 6) + '.jpg'
       this.balls.push(new Ball(props, url))
+      console.log(this.balls)
       props.position = {
-        x: this.randomNumber(0, this.canvas.width),
-        y: this.randomNumber(0, this.canvas.height / 2)
+        x: this.randomNumber(0, this.canvas.width - 300),
+        y: this.randomNumber(0, this.canvas.height / 3)
       }
     }
-
-    //this.balls.push(new Ball(this.ctx, this.canvas, 2, 'img/rock/rock' + this.randomNumber(1, 6) + '.jpg'))
   }
   resetLevel() {
     confirm('Has perdido una vida.¿Quieres intentarlo de nuevo?')
@@ -50,10 +45,10 @@ class Level {
       ctx: this.ctx,
       canvas: this.canvas,
       type: 2,
-      url: 'img' + this.getLevel.musicGenre.filePath + this.randomNumber(1, 3) + '.jpg',
+      url: 'img' + this.getLevel.musicGenre.filePath + this.randomNumber(1, 6) + '.jpg',
       position: {
         x: this.randomNumber(0, this.canvas.width - 300),
-        y: 0 //this.randomNumber(0, 300)
+        y: this.randomNumber(0, 300)
       },
       speed: {
         x: 2,
@@ -76,17 +71,7 @@ class Level {
     this.background.draw()
     this.player.draw(framesCounter)
     this.balls.forEach(ball => ball.draw())
-    if (this.checkPlayerImpact()) {
-      if (this.player.lives > 0) {
-        this.player.lives--
-        console.log(this.player.lives)
-        this.resetLevel()
-      } else {
-        confirm('No te quedan vidas')
-        this.reset()
-      }
 
-    }
 
     this.clearBullets()
     this.checkBulletImpact()
@@ -113,23 +98,24 @@ class Level {
             if (ball.type >= 0)
               this.balls.push(new Ball(ball, ball.url))
           })
-          console.log(balls.splice(i, 1))
+          //console.log(balls.splice(i, 1))
+          balls.splice(i, 1)
 
           i = i - 1
-          console.log(this.balls)
+          //console.log(this.balls)
         }
 
-        if (!this.balls.length) {
-          //this.level++
-          console.log('Levelnum', this.game.levelNum)
-          if (this.game.levelNum < 4) {
-            this.game.nextLevel()
-            console.log('next level!!')
-          } else {
-            alert('Juego terminado. Enhorabuena')
-          }
-        }
-
+        // if (!this.balls.length) {
+        //   //this.level++
+        //   console.log('Levelnum', this.game.levelNum)
+        //   if (this.game.levelNum === this.game.maxLevels) {
+        //     if (confirm('Juego terminado. Enhorabuena. Volver a jugar?')) {
+        //       this.game.start()
+        //     }
+        //   } else {
+        //     this.game.nextLevel()
+        //   }
+        // }
 
       }
     }
@@ -152,7 +138,6 @@ class Level {
         bullet.position.y <= ball.position.y + ball.height
       ) {
         bullets.splice(index, 1)
-        console.log('bullet borrada')
         return true
       }
     });
