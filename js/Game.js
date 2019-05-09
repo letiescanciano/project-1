@@ -36,7 +36,7 @@ const Game = {
         if (this.framesCounter > 1000) {
           this.framesCounter = 0
         }
-        if (this.score === this.randomNumber(0, 800)) {
+        if ((!this.bubbles.length && this.score === this.randomNumber(0, 800))) {
           this.bubbles.push(new Bubble(this.ctx, this.canvas))
         }
         this.protectPlayer()
