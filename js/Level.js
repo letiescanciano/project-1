@@ -1,5 +1,5 @@
 class Level {
-  constructor(game, getLevel) {
+  constructor(game, getLevel, mode) {
     this.game = game
     this.ctx = this.game.ctx
     this.canvas = this.game.canvas
@@ -15,7 +15,7 @@ class Level {
   }
   reset() {
     this.background = new Background(this.ctx, this.canvas.width, this.canvas.height, this.bgUrl)
-    this.player = new Player(this.ctx, this.canvas, this.playerAvatar, this.playerFrames)
+    this.player = new Player(this.ctx, this.canvas, this.playerAvatar, this.playerFrames, this.game.mode)
     this.balls = []
     const props = {
       ctx: this.ctx,
@@ -72,7 +72,6 @@ class Level {
     this.player.draw(framesCounter)
     this.balls.forEach(ball => ball.draw())
 
-
     this.clearBullets()
     this.checkBulletImpact()
   }
@@ -84,20 +83,17 @@ class Level {
     return Math.round(Math.random() * (max - min) + min)
   }
   checkBulletImpact() {
-    // colisiones genéricas
-    // (bullet.x + bullet.w > ball.x && ball.x + ball.w > bullet.x && bullet.y + bullet.h > ball.y && ball.y + ball.h > bullet.y )
-    // esto chequea que el personaje no estén en colisión con cualquier obstáculo
     const balls = this.balls
     const bullets = this.player.bullets
 
     if (bullets.length != 0) {
       for (let i = 0; i < balls.length; i++) {
         if (this.checkImpact(bullets, balls[i])) {
+          this.game.score++
           this.sliceBall(balls[i]).forEach(ball => {
             if (ball.type >= 0)
               this.balls.push(new Ball(ball, ball.url))
           })
-          //console.log(balls.splice(i, 1))
           balls.splice(i, 1)
           i = i - 1
           //console.log(this.balls)
@@ -112,10 +108,7 @@ class Level {
         this.player.position.x < ball.position.x + ball.width &&
         this.player.position.y <= ball.position.y + ball.height) {
         if (this.player.protected) {
-          //this.player.protected = false
-          console.log('Player protected', this.player.protected)
-          console.log('Bubble State', this.game.extras[0].state)
-          this.game.extras.splice(0, 1)
+          this.game.bubbles.splice(0, 1)
           this.sliceBall(ball).forEach(ball => {
             if (ball.type >= 0)
               this.balls.push(new Ball(ball, ball.url))

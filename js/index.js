@@ -22,7 +22,12 @@ window.onload = function () {
       case 83: //Start S
         document.getElementsByClassName('container')[0].classList.remove('hero')
         //document.getElementsByClassName('container')[0].classList.remove('game-over')
-        startGame()
+        startGame(0)
+        break;
+      case 73: //Start I
+        document.getElementsByClassName('container')[0].classList.remove('hero')
+        //document.getElementsByClassName('container')[0].classList.remove('game-over')
+        startGame(1)
         break;
       case 80: //Pausa P
         // document.getElementsByClassName('container')[0].classList.add('hero')
@@ -36,8 +41,8 @@ window.onload = function () {
   }
 
 
-  function startGame() {
-    Game.init('game-board')
+  function startGame(mode) {
+    Game.init('game-board', mode)
   }
 
   function pauseGame() {

@@ -1,7 +1,8 @@
 class Player {
-  constructor(ctx, canvas, url, frames) {
+  constructor(ctx, canvas, url, frames, mode) {
     this.ctx = ctx
     this.canvas = canvas
+    this.mode = mode
 
     /*  this.keys = {
        LEFT: 37,
@@ -64,8 +65,8 @@ class Player {
   }
   shoot() {
     if (this.bullets.length < 3) {
-      const bullet = new MusicNote(this.ctx, this.position, this.width)
-      this.bullets.push(bullet)
+      if (this.mode === 0)
+        this.bullets.push(new Bullet(this.ctx, this.position, this.width, 'img/instruments/musical-note.svg'))
     }
 
   }
@@ -80,27 +81,4 @@ class Player {
     this.position.x -= this.speed.x
     if (this.position.x <= 0) this.position.x = 0
   }
-
-  /* setPlayerListeners() {
-    document.onkeydown = e => {
-      switch (e.keyCode) {
-        case this.keys.LEFT:
-          this.moveLeft()
-          break
-        case this.keys.RIGHT:
-          this.moveRight()
-          break
-        case this.keys.SPACE:
-          this.shoot()
-          break
-      }
-       if (e.keyCode == this.keys.LEFT) {
-        this.moveLeft()
-      } else if (e.keyCode == this.keys.RIGHT) {
-        this.moveRight()
-      } else if (e.keyCode == this.keys.SPACE) {
-        this.shoot()
-      } 
-    }
-  } */
 }

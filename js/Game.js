@@ -9,8 +9,10 @@ const Game = {
   paused: false,
   lives: 3,
   maxLevels: levels.length,
+  mode: 0,
+  score: 0,
 
-  init: function (canvasId) {
+  init: function (canvasId, mode) {
     console.log('game init')
     this.canvas = document.getElementById(canvasId)
     this.ctx = this.canvas.getContext('2d')
@@ -34,6 +36,9 @@ const Game = {
         if (this.framesCounter > 1000) {
           this.framesCounter = 0
         }
+        if (this.score === this.randomNumber(0, 800)) {
+          this.bubbles.push(new Bubble(this.ctx, this.canvas))
+        }
         this.protectPlayer()
         if (!this.level.balls.length) {
           this.nextLevel()
@@ -41,14 +46,16 @@ const Game = {
       }
     }, 1000 / this.fps)
   },
+  randomNumber: function (min, max) {
+    return Math.round(Math.random() * (max - min) + min)
+  },
   pause: function () {
     this.paused ? this.paused = false : this.paused = true
     //console.log('this.paused:', this.paused)
   },
   reset: function () {
+    this.bubbles = []
     this.level = new Level(this, this.getLevel)
-    this.extras = []
-    this.extras.push(new Extra(this.ctx, this.canvas))
     this.framesCounter = 0
   },
   nextLevel: function () {
@@ -82,18 +89,27 @@ const Game = {
     }
 
     this.level.draw(this.framesCounter)
-    this.extras.forEach(extra => extra.draw())
+    this.drawScore()
+
+    if (this.bubbles.length)
+      this.bubbles.forEach(bubble => bubble.draw())
     this.drawLives()
     this.drawLevelNum()
   },
   moveAll: function () {
     this.level.move()
-    this.extras.forEach(extra => extra.move())
+    if (this.bubbles.length)
+      this.bubbles.forEach(bubble => bubble.move())
   },
   drawLives: function () {
     this.ctx.font = '48px Arcade'
     this.ctx.fillStyle = 'white'
     this.ctx.fillText('Lives x' + this.lives, 30, this.canvas.height - 22)
+  },
+  drawScore: function () {
+    this.ctx.font = '48px Arcade'
+    this.ctx.fillStyle = 'white'
+    this.ctx.fillText(this.score, this.canvas.width / 2, this.canvas.height - 22)
   },
   drawLevelNum: function () {
     this.ctx.font = '48px Arcade'
@@ -125,7 +141,7 @@ const Game = {
   protectPlayer: function () {
     //debugger
     //console.log(this.bubble.checkPlayerPosition(this.level.player))
-    this.extras.forEach(bubble => {
+    this.bubbles.forEach(bubble => {
       if (bubble.checkPlayerPosition(this.level.player)) {
         bubble.position.x = this.level.player.position.x - 10
         bubble.position.y = this.level.player.position.y - 20

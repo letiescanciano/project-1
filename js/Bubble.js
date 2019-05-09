@@ -1,8 +1,7 @@
-class Extra {
-  constructor(ctx, canvas, player, url) {
+class Bubble {
+  constructor(ctx, canvas) {
     this.ctx = ctx
     this.canvas = canvas
-
 
     this.img = new Image()
     this.img.src = 'img/bubble.png'
@@ -10,7 +9,7 @@ class Extra {
     this.height = 40
 
     this.position = {
-      x: 100,
+      x: this.randomNumber(20, 800),
       y: 0
     }
     this.speed = {
@@ -36,5 +35,8 @@ class Extra {
       player.position.x < this.position.x + this.width &&
       player.position.y <= this.position.y + this.height
     )
+  }
+  randomNumber(min, max) {
+    return Math.round(Math.random() * (max - min) + min)
   }
 }

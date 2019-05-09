@@ -1,5 +1,5 @@
-class MusicNote {
-  constructor(ctx, position, playerW) {
+class Bullet {
+  constructor(ctx, position, playerW, url) {
     this.ctx = ctx
     // console.log(position)
     this.position = {
@@ -10,7 +10,7 @@ class MusicNote {
       y: 10
     }
     this.img = new Image()
-    this.img.src = 'img/instruments/musical-note.svg'
+    this.img.src = url
 
     this.width = 32
     this.height = 32
