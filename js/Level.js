@@ -92,7 +92,6 @@ class Level {
 
     if (bullets.length != 0) {
       for (let i = 0; i < balls.length; i++) {
-
         if (this.checkImpact(bullets, balls[i])) {
           this.sliceBall(balls[i]).forEach(ball => {
             if (ball.type >= 0)
@@ -100,34 +99,33 @@ class Level {
           })
           //console.log(balls.splice(i, 1))
           balls.splice(i, 1)
-
           i = i - 1
           //console.log(this.balls)
         }
-
-        // if (!this.balls.length) {
-        //   //this.level++
-        //   console.log('Levelnum', this.game.levelNum)
-        //   if (this.game.levelNum === this.game.maxLevels) {
-        //     if (confirm('Juego terminado. Enhorabuena. Volver a jugar?')) {
-        //       this.game.start()
-        //     }
-        //   } else {
-        //     this.game.nextLevel()
-        //   }
-        // }
-
       }
     }
   }
   checkPlayerImpact() {
-    return this.balls.some(ball => {
-      return (
+    return this.balls.some((ball, index, object) => {
+      if (
         this.player.position.x + this.player.width >= ball.position.x &&
         this.player.position.x < ball.position.x + ball.width &&
-        this.player.position.y <= ball.position.y + ball.height
-      );
+        this.player.position.y <= ball.position.y + ball.height) {
+        if (this.player.protected) {
+          //this.player.protected = false
+          console.log('Player protected', this.player.protected)
+          console.log('Bubble State', this.game.extras[0].state)
+          this.game.extras.splice(0, 1)
+          this.sliceBall(ball).forEach(ball => {
+            if (ball.type >= 0)
+              this.balls.push(new Ball(ball, ball.url))
+          })
+          object.splice(index, 1)
+          return true
+        } else return true
+      }
     });
+
   }
 
   checkImpact(bullets, ball) {

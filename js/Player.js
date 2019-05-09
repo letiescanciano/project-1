@@ -27,6 +27,7 @@ class Player {
       initialY: 0
     }
     this.bullets = [];
+    this.protected = false
     //this.setPlayerListeners()
   }
 
@@ -79,6 +80,7 @@ class Player {
     this.position.x -= this.speed.x
     if (this.position.x <= 0) this.position.x = 0
   }
+
   /* setPlayerListeners() {
     document.onkeydown = e => {
       switch (e.keyCode) {

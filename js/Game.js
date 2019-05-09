@@ -7,7 +7,7 @@ const Game = {
   levelNum: 1,
   getLevel: undefined,
   paused: false,
-  lives: 0,
+  lives: 3,
   maxLevels: levels.length,
 
   init: function (canvasId) {
@@ -34,6 +34,7 @@ const Game = {
         if (this.framesCounter > 1000) {
           this.framesCounter = 0
         }
+        this.protectPlayer()
         if (!this.level.balls.length) {
           this.nextLevel()
         }
@@ -46,6 +47,8 @@ const Game = {
   },
   reset: function () {
     this.level = new Level(this, this.getLevel)
+    this.extras = []
+    this.extras.push(new Extra(this.ctx, this.canvas))
     this.framesCounter = 0
   },
   nextLevel: function () {
@@ -65,22 +68,27 @@ const Game = {
     } else alert('juego terminado')
   },
   drawAll: function () {
-    //console.log("drawall")
     if (this.level.checkPlayerImpact()) {
-      if (this.lives > 0) {
+      //debugger
+      if (this.lives > 0 && !this.level.player.protected) {
         this.lives--
-        //console.log('oh te han dado. Vidas restantes', this.lives)
         this.level.resetLevel()
+      } else if (this.level.player.protected) {
+        console.log('tengo escudo soy invencible', this.level.player.protected)
+        this.level.player.protected = false
       } else {
         this.gameOver()
       }
     }
+
     this.level.draw(this.framesCounter)
+    this.extras.forEach(extra => extra.draw())
     this.drawLives()
     this.drawLevelNum()
   },
   moveAll: function () {
     this.level.move()
+    this.extras.forEach(extra => extra.move())
   },
   drawLives: function () {
     this.ctx.font = '48px Arcade'
@@ -94,7 +102,7 @@ const Game = {
   },
   drawNextLevel: function () {
     //console.log('entro en drawnext')
-    const widthRect = 500
+    const widthRect = 800
     const heightRect = 200
     const posX = this.canvas.width / 2 - widthRect / 2
     const posY = this.canvas.height / 2 - heightRect / 2
@@ -104,15 +112,30 @@ const Game = {
     this.ctx.fillRect(posX, posY, widthRect, heightRect)
 
     this.ctx.fillStyle = 'black'
-    this.ctx.font = '36px Arcade'
-    this.ctx.fillText(`LEVEL COMPLETED!`, posX + 30, posY + heightRect / 2)
+    this.ctx.font = '80px Arcade'
+    this.ctx.fillText(`LEVEL COMPLETED!`, posX + 40, posY + heightRect / 2)
 
     this.ctx.fillStyle = ''
     this.ctx.font = '36px Arcade'
-    this.ctx.fillText(`Level  ${this.levelNum} in 2 seconds`, posX + 30, posY + 40 + heightRect / 2)
+    this.ctx.fillText(`LEVEL  ${this.levelNum} in 2 seconds`, posX + 100, posY + 40 + heightRect / 2)
   },
   clear: function () {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+  },
+  protectPlayer: function () {
+    //debugger
+    //console.log(this.bubble.checkPlayerPosition(this.level.player))
+    this.extras.forEach(bubble => {
+      if (bubble.checkPlayerPosition(this.level.player)) {
+        bubble.position.x = this.level.player.position.x - 10
+        bubble.position.y = this.level.player.position.y - 20
+        bubble.speed.x = this.level.player.speed.x
+        bubble.width = this.level.player.width + 30
+        bubble.height = this.level.player.height + 30
+        this.level.player.protected = true
+        bubble.state = 1
+      }
+    })
   },
   setListeners: function () {
     document.onkeydown = (e) => {
@@ -135,12 +158,15 @@ const Game = {
       }
     }
   },
-  gameOver() {
+  gameOver: function () {
     clearInterval(this.interval)
     document.getElementsByClassName('container')[0].classList.add('game-over')
-    if (confirm('GAME OVER!! ¿Quieres empezar de nuevo?')) {
-      this.lives = 4
-      this.start()
-    }
+    setTimeout(() => {
+      if (confirm('GAME OVER!! ¿Quieres empezar de nuevo?')) {
+        document.getElementsByClassName('container')[0].classList.remove('game-over')
+        this.lives = 4
+        this.start()
+      }
+    }, 600)
   },
 }

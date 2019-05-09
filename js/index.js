@@ -21,7 +21,7 @@ window.onload = function () {
     switch (e.keyCode) {
       case 83: //Start S
         document.getElementsByClassName('container')[0].classList.remove('hero')
-        document.getElementsByClassName('container')[0].classList.remove('game-over')
+        //document.getElementsByClassName('container')[0].classList.remove('game-over')
         startGame()
         break;
       case 80: //Pausa P
@@ -34,7 +34,6 @@ window.onload = function () {
         break
     }
   }
-
 
 
   function startGame() {

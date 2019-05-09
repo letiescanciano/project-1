@@ -13,9 +13,9 @@
 .hero {
   background-image: url("../img/background-home.png");
   background-size: cover;
-  margin: 0;
+  background-repeat: no-repeat;
+  background-position: center;
   height: 100vh;
-  margin: 0 auto;
 }
 
 #controls {
@@ -32,4 +32,5 @@
   background-size: 60%;
   background-repeat: no-repeat;
   background-position: center;
+  height: 100vh;
 }
