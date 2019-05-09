@@ -67,6 +67,8 @@ class Player {
     if (this.bullets.length < 3) {
       if (this.mode === 0)
         this.bullets.push(new Bullet(this.ctx, this.position, this.width, 'img/instruments/musical-note.svg'))
+      else
+        this.bullets.push(new Bullet(this.ctx, this.position, this.width, 'img/ih/code.svg'))
     }
 
   }

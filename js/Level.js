@@ -3,19 +3,76 @@ class Level {
     this.game = game
     this.ctx = this.game.ctx
     this.canvas = this.game.canvas
+    this.mode = mode
+    //console.log(this.mode)
     this.getLevel = getLevel
-    this.ballsNumber = this.getLevel.ballsNumber;
-    this.level = this.getLevel.num
-    this.bgUrl = this.getLevel.musicGenre.background
+    //console.log('this getlevel', this.getLevel)
 
-    this.playerAvatar = this.getLevel.musicGenre.instrument
-    this.playerFrames = this.getLevel.musicGenre.frames
+    console.log(this.getLevel.balls)
+    this.level = this.getLevel.num
+    this.ballsNumber = this.getLevel.ballsNumber
+    if (this.mode === 0) {
+      this.bgUrl = this.getLevel.musicGenre.background
+      this.playerAvatar = this.getLevel.musicGenre.instrument
+      this.playerFrames = this.getLevel.musicGenre.frames
+    } else { //IH mode
+      //this.ballsNumber = this.getLevel.ballsNumber;
+      this.getLevel.balls = getLevel.balls
+      this.bgUrl = this.getLevel.background
+      this.playerAvatar = 'web.png'
+      this.playerFrames = 3
+    }
 
     this.reset()
   }
   reset() {
+    let props
     this.background = new Background(this.ctx, this.canvas.width, this.canvas.height, this.bgUrl)
     this.player = new Player(this.ctx, this.canvas, this.playerAvatar, this.playerFrames, this.game.mode)
+    this.balls = []
+    props = {
+      ctx: this.ctx,
+      canvas: this.canvas,
+      type: 2,
+      position: {
+        x: this.randomNumber(100, this.canvas.width - 300),
+        y: this.randomNumber(10, this.canvas.height / 3)
+      }
+    }
+
+    let url
+
+    if (this.mode == 0) {
+      for (let i = 0; i < this.ballsNumber; i++) {
+        url = 'img' + this.getLevel.musicGenre.filePath + this.randomNumber(1, 6) + '.jpg'
+        this.balls.push(new Ball(props, url))
+        console.log(this.balls)
+        props.position = {
+          x: this.randomNumber(0, this.canvas.width - 300),
+          y: this.randomNumber(0, this.canvas.height / 3)
+        }
+      }
+    } else if (this.mode === 1) {
+      //for (let i = 0; i < this.ballsNumber; i++) {
+      console.log(this.getLevel.balls)
+      //debugger
+      this.getLevel.balls.forEach(ball => {
+        this.balls.push(new Ball(props, ball))
+        props.position = {
+          x: this.randomNumber(0, this.canvas.width - 300),
+          y: this.randomNumber(0, this.canvas.height / 3)
+        }
+      })
+      console.log(this.balls)
+
+      //}
+    }
+
+
+
+  }
+  resetLevel() {
+    confirm('Has perdido una vida.¿Quieres intentarlo de nuevo?')
     this.balls = []
     const props = {
       ctx: this.ctx,
@@ -28,19 +85,31 @@ class Level {
     }
 
     let url
-    for (let i = 0; i < this.ballsNumber; i++) {
-      url = 'img' + this.getLevel.musicGenre.filePath + this.randomNumber(1, 6) + '.jpg'
-      this.balls.push(new Ball(props, url))
-      console.log(this.balls)
-      props.position = {
-        x: this.randomNumber(0, this.canvas.width - 300),
-        y: this.randomNumber(0, this.canvas.height / 3)
+    if (this.mode == 0) {
+      for (let i = 0; i < this.ballsNumber; i++) {
+        url = 'img' + this.getLevel.musicGenre.filePath + this.randomNumber(1, 6) + '.jpg'
+        this.balls.push(new Ball(props, url))
+        console.log(this.balls)
+        props.position = {
+          x: this.randomNumber(0, this.canvas.width - 300),
+          y: this.randomNumber(0, this.canvas.height / 3)
+        }
       }
+    } else {
+      //for (let i = 0; i < this.ballsNumber; i++) {
+      this.getLevel.balls.forEach(ball => {
+        this.balls.push(new Ball(props, ball))
+        props.position = {
+          x: this.randomNumber(0, this.canvas.width - 300),
+          y: this.randomNumber(0, this.canvas.height / 3)
+        }
+      })
+      console.log(this.balls)
+
+      //}
     }
-  }
-  resetLevel() {
-    confirm('Has perdido una vida.¿Quieres intentarlo de nuevo?')
-    this.balls = []
+    /* this.balls = []
+   
     const props = {
       ctx: this.ctx,
       canvas: this.canvas,
@@ -61,8 +130,8 @@ class Level {
       props.position = {
         x: this.randomNumber(0, this.canvas.width),
         y: this.randomNumber(0, 100)
-      }
-    }
+      } 
+  }*/
 
     //this.balls.push(new Ball(this.ctx, this.canvas, 2, 'img/rock/rock' + this.randomNumber(1, 6) + '.jpg'))
   }
@@ -89,7 +158,7 @@ class Level {
     if (bullets.length != 0) {
       for (let i = 0; i < balls.length; i++) {
         if (this.checkImpact(bullets, balls[i])) {
-          this.game.score++
+          this.game.score += 20
           this.sliceBall(balls[i]).forEach(ball => {
             if (ball.type >= 0)
               this.balls.push(new Ball(ball, ball.url))

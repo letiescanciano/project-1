@@ -19,8 +19,10 @@ const Game = {
 
     this.canvas.width = window.innerWidth
     this.canvas.height = window.innerHeight
-    this.getLevel = getLevel(this.levelNum)
-    //console.log(this.maxLevels)
+
+    console.log('get level en init', this.getLevel)
+    this.mode = mode
+    console.log('mode en init', this.mode)
     this.start()
     this.setListeners()
   },
@@ -36,9 +38,15 @@ const Game = {
         if (this.framesCounter > 1000) {
           this.framesCounter = 0
         }
-        if ((!this.bubbles.length && this.score === this.randomNumber(0, 800))) {
-          this.bubbles.push(new Bubble(this.ctx, this.canvas))
+        if (this.mode == 0) {
+          //console.log('entro en generar bubbls')
+          if (!this.bubbles.length && this.score === this.randomNumber(0, 800)) { //this.randomNumber(0, 800)
+            this.bubbles.push(new Bubble(this.ctx, this.canvas, 'img/bubble.png'))
+          }
+        } else if (this.mode === 1 && this.score === this.randomNumber(0, 800)) {
+          this.bubbles.push(new Bubble(this.ctx, this.canvas, 'img/ih/t' + this.randomNumber(1, 3) + '.png'))
         }
+
         this.protectPlayer()
         if (!this.level.balls.length) {
           this.nextLevel()
@@ -55,7 +63,7 @@ const Game = {
   },
   reset: function () {
     this.bubbles = []
-    this.level = new Level(this, this.getLevel)
+    this.level = new Level(this, getLevel(this.levelNum, this.mode), this.mode)
     this.framesCounter = 0
   },
   nextLevel: function () {
@@ -64,12 +72,12 @@ const Game = {
       this.pause()
       this.drawNextLevel()
       setTimeout(() => {
-        this.level = new Level(this, getLevel(this.levelNum)) //paso Game porque necesito más de 4 argumentos
+        this.level = new Level(this, getLevel(this.levelNum, this.mode), this.mode) //paso Game porque necesito más de 4 argumentos
         this.pause()
       }, 2000)
 
       if (!this.paused) {
-        this.level = new Level(this, getLevel(this.levelNum)) //paso Game porque necesito más de 4 argumentos
+        this.level = new Level(this, getLevel(this.levelNum, this.mode), this.mode) //paso Game porque necesito más de 4 argumentos
       } else return
       //this.level = new Level(this, getLevel(this.levelNum)) //paso Game porque necesito más de 4 argumentos
     } else alert('juego terminado')
@@ -81,7 +89,7 @@ const Game = {
         this.lives--
         this.level.resetLevel()
       } else if (this.level.player.protected) {
-        console.log('tengo escudo soy invencible', this.level.player.protected)
+        //console.log('tengo escudo soy invencible', this.level.player.protected)
         this.level.player.protected = false
       } else {
         this.gameOver()
@@ -109,7 +117,7 @@ const Game = {
   drawScore: function () {
     this.ctx.font = '48px Arcade'
     this.ctx.fillStyle = 'white'
-    this.ctx.fillText(this.score, this.canvas.width / 2, this.canvas.height - 22)
+    this.ctx.fillText('Score       ' + this.score, this.canvas.width / 2, this.canvas.height - 22)
   },
   drawLevelNum: function () {
     this.ctx.font = '48px Arcade'

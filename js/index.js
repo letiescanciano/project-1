@@ -42,6 +42,7 @@ window.onload = function () {
 
 
   function startGame(mode) {
+    console.log("startGame", mode)
     Game.init('game-board', mode)
   }
 

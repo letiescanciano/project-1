@@ -1,10 +1,10 @@
 class Bubble {
-  constructor(ctx, canvas) {
+  constructor(ctx, canvas, url) {
     this.ctx = ctx
     this.canvas = canvas
 
     this.img = new Image()
-    this.img.src = 'img/bubble.png'
+    this.img.src = url
     this.width = 40
     this.height = 40
 
