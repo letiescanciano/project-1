@@ -7,7 +7,7 @@ const Game = {
   levelNum: 1,
   getLevel: undefined,
   paused: false,
-  lives: 4,
+  lives: 0,
   maxLevels: levels.length,
 
   init: function (canvasId) {
@@ -51,12 +51,12 @@ const Game = {
   nextLevel: function () {
     if (this.levelNum < this.maxLevels) {
       this.levelNum++
-      this.drawNextLevel()
       this.pause()
-      /*    setTimeout(() => {
-           this.level = new Level(this, getLevel(this.levelNum)) //paso Game porque necesito más de 4 argumentos
-           this.pause()
-         }, 3000) */
+      this.drawNextLevel()
+      setTimeout(() => {
+        this.level = new Level(this, getLevel(this.levelNum)) //paso Game porque necesito más de 4 argumentos
+        this.pause()
+      }, 2000)
 
       if (!this.paused) {
         this.level = new Level(this, getLevel(this.levelNum)) //paso Game porque necesito más de 4 argumentos
@@ -100,11 +100,16 @@ const Game = {
     const posY = this.canvas.height / 2 - heightRect / 2
 
     console.log(posX, posY, widthRect, heightRect)
-    this.ctx.fillStyle = 'white'
+    this.ctx.fillStyle = 'rgb(221, 221, 221)'
     this.ctx.fillRect(posX, posY, widthRect, heightRect)
+
     this.ctx.fillStyle = 'black'
-    this.ctx.font = '24px Arcade'
-    this.ctx.fillText('Siguiente Nivel' + this.levelNum, posX, posY + heightRect / 2)
+    this.ctx.font = '36px Arcade'
+    this.ctx.fillText(`LEVEL COMPLETED!`, posX + 30, posY + heightRect / 2)
+
+    this.ctx.fillStyle = ''
+    this.ctx.font = '36px Arcade'
+    this.ctx.fillText(`Level  ${this.levelNum} in 2 seconds`, posX + 30, posY + 40 + heightRect / 2)
   },
   clear: function () {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
@@ -132,13 +137,7 @@ const Game = {
   },
   gameOver() {
     clearInterval(this.interval)
-    /* this.gameOverImg = new Image()
-    this.ctx.drawImage(this.gameOverImg, this.canvas.width / 2 - 250, this.canvas.height / 2 - 250, 500, 500)
-    document.onkeydown = (e) => {
-      if (e.keyCode === 13) {
-        this.init()
-      }
-    } */
+    document.getElementsByClassName('container')[0].classList.add('game-over')
     if (confirm('GAME OVER!! ¿Quieres empezar de nuevo?')) {
       this.lives = 4
       this.start()

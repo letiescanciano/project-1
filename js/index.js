@@ -21,11 +21,17 @@ window.onload = function () {
     switch (e.keyCode) {
       case 83: //Start S
         document.getElementsByClassName('container')[0].classList.remove('hero')
+        document.getElementsByClassName('container')[0].classList.remove('game-over')
         startGame()
         break;
       case 80: //Pausa P
         // document.getElementsByClassName('container')[0].classList.add('hero')
         pauseGame();
+        break
+      case 71: //Force GameOver
+        // document.getElementsByClassName('container')[0].classList.add('hero')
+        gameOver();
+        break
     }
   }
 
@@ -42,6 +48,10 @@ window.onload = function () {
 
   function resetGame() {
     Game.reset('game-board')
+  }
+
+  function gameOver() {
+    document.getElementsByClassName('container')[0].classList.add('game-over')
   }
 
 };

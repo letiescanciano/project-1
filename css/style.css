@@ -26,3 +26,10 @@
 .canvas {
   margin: 0 auto;
 }
+
+.game-over {
+  background-image: url('../img/gameover.png');
+  background-size: 60%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
