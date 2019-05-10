@@ -185,6 +185,7 @@ const Game = {
       if (confirm('GAME OVER!! ¿Quieres empezar de nuevo?')) {
         document.getElementsByClassName('container')[0].classList.remove('game-over')
         this.lives = 4
+        this.levelNum = 1
         this.start()
       }
     }, 600)
