@@ -1,20 +1,5 @@
 window.onload = function () {
 
-  /*   document.getElementById("start-game").onclick = function () {
-      document.getElementsByClassName('container')[0].classList.remove('hero')
-      startGame();
-    };
-    document.getElementById("pause-game").onclick = function () {
-      document.getElementsByClassName('container')[0].classList.add('hero')
-      pauseGame();
-    };
-    document.getElementById("reset-game").onclick = function () {
-      // document.getElementsByClassName('container')[0].classList.add('hero')
-      resetGame();
-
-
-
-    }; */
   document.onkeydown = function (e) {
     console.log(e)
 

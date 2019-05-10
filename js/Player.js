@@ -4,11 +4,6 @@ class Player {
     this.canvas = canvas
     this.mode = mode
 
-    /*  this.keys = {
-       LEFT: 37,
-       RIGHT: 39,
-       SPACE: 32
-     } */
     this.speed = {
       x: 100,
       y: 0

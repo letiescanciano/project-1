@@ -11,6 +11,14 @@ function getLevel(levelNum, mode) {
     return ih.filter(level => level.num === levelNum)[0]
 }
 
+
+
+/* function getLevel(levelNum, mode) {
+    return levels.filter(level => level.num === levelNum)[0]
+}
+ */
+
+
 let speed = {
   x: 1,
   y: 1

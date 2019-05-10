@@ -43,7 +43,7 @@ const Game = {
           if (!this.bubbles.length && this.score === this.randomNumber(0, 800)) { //this.randomNumber(0, 800)
             this.bubbles.push(new Bubble(this.ctx, this.canvas, 'img/bubble.png'))
           }
-        } else if (this.mode === 1 && this.score === this.randomNumber(0, 800)) {
+        } else if (this.mode === 1 && this.framesCounter % 100 === 0) { // this.randomNumber(0, 100)
           this.bubbles.push(new Bubble(this.ctx, this.canvas, 'img/ih/t' + this.randomNumber(1, 3) + '.png'))
         }
 
@@ -59,7 +59,6 @@ const Game = {
   },
   pause: function () {
     this.paused ? this.paused = false : this.paused = true
-    //console.log('this.paused:', this.paused)
   },
   reset: function () {
     this.bubbles = []
@@ -79,17 +78,14 @@ const Game = {
       if (!this.paused) {
         this.level = new Level(this, getLevel(this.levelNum, this.mode), this.mode) //paso Game porque necesito más de 4 argumentos
       } else return
-      //this.level = new Level(this, getLevel(this.levelNum)) //paso Game porque necesito más de 4 argumentos
     } else alert('juego terminado')
   },
   drawAll: function () {
     if (this.level.checkPlayerImpact()) {
-      //debugger
       if (this.lives > 0 && !this.level.player.protected) {
         this.lives--
         this.level.resetLevel()
       } else if (this.level.player.protected) {
-        //console.log('tengo escudo soy invencible', this.level.player.protected)
         this.level.player.protected = false
       } else {
         this.gameOver()

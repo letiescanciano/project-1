@@ -48,8 +48,8 @@ class Level {
         this.balls.push(new Ball(props, url))
         console.log(this.balls)
         props.position = {
-          x: this.randomNumber(0, this.canvas.width - 300),
-          y: this.randomNumber(0, this.canvas.height / 3)
+          x: ball.position.x,
+          y: ball.position.y
         }
       }
     } else if (this.mode === 1) {
@@ -58,6 +58,10 @@ class Level {
       //debugger
       this.getLevel.balls.forEach(ball => {
         this.balls.push(new Ball(props, ball))
+        /*         props.position = {
+                  x: ball.position.x,
+                  y: ball.position.y
+                } */
         props.position = {
           x: this.randomNumber(0, this.canvas.width - 300),
           y: this.randomNumber(0, this.canvas.height / 3)
@@ -96,7 +100,7 @@ class Level {
         }
       }
     } else {
-      //for (let i = 0; i < this.ballsNumber; i++) {
+
       this.getLevel.balls.forEach(ball => {
         this.balls.push(new Ball(props, ball))
         props.position = {
@@ -105,38 +109,10 @@ class Level {
         }
       })
       console.log(this.balls)
-
-      //}
-    }
-    /* this.balls = []
-   
-    const props = {
-      ctx: this.ctx,
-      canvas: this.canvas,
-      type: 2,
-      url: 'img' + this.getLevel.musicGenre.filePath + this.randomNumber(1, 6) + '.jpg',
-      position: {
-        x: this.randomNumber(0, this.canvas.width - 300),
-        y: this.randomNumber(0, 300)
-      },
-      speed: {
-        x: 2,
-        y: 1
-      }
     }
 
-    for (let i = 0; i < this.ballsNumber; i++) {
-      this.balls.push(new Ball(props, props.url))
-      props.position = {
-        x: this.randomNumber(0, this.canvas.width),
-        y: this.randomNumber(0, 100)
-      } 
-  }*/
-
-    //this.balls.push(new Ball(this.ctx, this.canvas, 2, 'img/rock/rock' + this.randomNumber(1, 6) + '.jpg'))
   }
   draw(framesCounter) {
-
     this.background.draw()
     this.player.draw(framesCounter)
     this.balls.forEach(ball => ball.draw())
@@ -177,7 +153,9 @@ class Level {
         this.player.position.x < ball.position.x + ball.width &&
         this.player.position.y <= ball.position.y + ball.height) {
         if (this.player.protected) {
+          //debugger
           this.game.bubbles.splice(0, 1)
+          //this.game.bubbles.pop()
           this.sliceBall(ball).forEach(ball => {
             if (ball.type >= 0)
               this.balls.push(new Ball(ball, ball.url))
