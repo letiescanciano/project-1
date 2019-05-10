@@ -62,7 +62,7 @@ class Level {
           y: this.randomNumber(0, this.canvas.height / 3)
         }
       })
-      console.log(this.balls)
+      //console.log(this.balls)
 
 
     }
