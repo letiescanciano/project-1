@@ -12,13 +12,6 @@ function getLevel(levelNum, mode) {
 }
 
 
-
-/* function getLevel(levelNum, mode) {
-    return levels.filter(level => level.num === levelNum)[0]
-}
- */
-
-
 let speed = {
   x: 1,
   y: 1

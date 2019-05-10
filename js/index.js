@@ -1,7 +1,7 @@
 window.onload = function () {
 
   document.onkeydown = function (e) {
-    console.log(e)
+    //console.log(e)
 
     switch (e.keyCode) {
       case 83: //Start S
@@ -32,7 +32,7 @@ window.onload = function () {
   }
 
   function pauseGame() {
-    console.log('paused click')
+    // console.log('paused click')
     Game.pause('game-board')
   }
 

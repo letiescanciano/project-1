@@ -20,9 +20,9 @@ const Game = {
     this.canvas.width = window.innerWidth
     this.canvas.height = window.innerHeight
 
-    console.log('get level en init', this.getLevel)
+    //console.log('get level en init', this.getLevel)
     this.mode = mode
-    console.log('mode en init', this.mode)
+    //console.log('mode en init', this.mode)
     this.start()
     this.setListeners()
   },
@@ -40,10 +40,10 @@ const Game = {
         }
         if (this.mode == 0) {
           //console.log('entro en generar bubbls')
-          if (!this.bubbles.length && this.score === this.randomNumber(0, 800)) { //this.randomNumber(0, 800)
+          if (!this.bubbles.length && this.framesCounter % 200 === 0) { //this.randomNumber(0, 800)
             this.bubbles.push(new Bubble(this.ctx, this.canvas, 'img/bubble.png'))
           }
-        } else if (this.mode === 1 && this.framesCounter % 100 === 0) { // this.randomNumber(0, 100)
+        } else if (this.mode === 1 && this.framesCounter % 300 === 0) { // this.randomNumber(0, 100)
           this.bubbles.push(new Bubble(this.ctx, this.canvas, 'img/ih/t' + this.randomNumber(1, 3) + '.png'))
         }
 
