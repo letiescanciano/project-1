@@ -4,6 +4,8 @@ Music Pang is a Canvas game based on the classic Super Pang but with a music tou
 # Normal mode
 
   - Press S to play
+  - Use left and right arrow to move
+  - Use SPACE to shoot
   - Try to complete all the levels. 
   - Each level match a music genre
 
